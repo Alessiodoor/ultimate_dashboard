@@ -11,7 +11,14 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-// Connection to DB, localhost, named dashboardDB
+// per poter fare richieste api da react
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+// Connection to DB, localhost, named ultimatedashboardDB
 const local_url = "mongodb://localhost:27017/ultimatedashboardDB";
 mongoose.connect(local_url, {useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false });
 
@@ -26,30 +33,43 @@ if (port == null || port == "") {
 app.route("/lists")
 	.get(function(req, res) {
 		// ottengo tutte le liste di un utente
-		var lists = [];
 		todoList.getLists(function(result) {
-				lists = result;	
+			res.send(result);
 		});
-		res.send({lists: lists});
 	})
 	.post(function(req, res) {
 		// aggiungo una lista
+		todoList.createNewList(req.body.listName, function(result) {
+			res.send(result);
+		});
 	})
 	.delete(function(req, res) {
 		// rimuovo una lista tramite id
+		todoList.deleteList(req.body.listId, function(result) {
+			res.send(result);
+		})
 	});
 
 // api per la singola lista, l'item lo passo come parametro del body
-app.route("/lists/:listName")
+app.route("/lists/:listId")
 	.get(function(req, res) {
 		// get items in a list
+		todoList.getList(req.params.listId, function(result) {
+			res.send(result);
+		})
 	})
 	.put(function(req, res) {
-		// add ain item to the list
+		// add an item to the list
+		todoList.insertNewItem(req.body.itemName, req.params.listId, function(result) {
+			res.send(result);
+		})
 	})
 	.delete(function(req, res) {
 		// delete item from the list by id
-	})
+		todoList.deleteItem(req.params.listId, req.body.itemName, function(result) {
+			res.send(result);
+		});
+	});
 
 app.listen(port, function(){
 	console.log('Listening on port ' + port);
