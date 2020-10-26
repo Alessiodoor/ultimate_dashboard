@@ -1,26 +1,42 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
-function Lists() {
+function Lists(props) {
+	const [lists, setLists] = useState([]);
+
+	function getLists(){
+	    fetch("http://localhost:5000/lists", {"method": "GET"})
+	    .then(response => response.json())
+	    .then(response => {
+	    	setLists(response.lists);
+	    })
+	    .catch(err => { console.log(err); 
+	    });
+	}
+
+	// Estraggo le liste
+	useEffect(() => {getLists(); }, []);
+
 	return (
 		<div>
-			<div className="box" id="heading">
-				<h1>Le tue liste</h1>
-			</div>
 
 			<div className="box">
+				<div className="box" id="heading">
+					<h1 className="listTitle">Le tue liste</h1>
+				</div>
 				<ul>
-					<div className="item">
-						<a href=""><p>Lista1</p></a>
-					</div>
-					<div className="item">
-						<a href=""><p>Lista2</p></a>
-					</div>
+					{lists.map((list) => {
+						return (
+							<div key={list._id} className="item">
+								<p className="listName">Lista1</p>
+							</div>
+							);
+					})}
 				</ul>
 				<div className="item">
-					<form action="/newList" method="post" className="item ml-0">
-						<input type="text" name="newList" placeholder="Crea una nuova lista" />
+					<div className="item ml-0">
+						<input onChange={() => {props.onChangeList()}}  type="text" name="newList" placeholder="Crea una nuova lista" />
 						<button type="submit" className="circle-btn" name="submitNewList">+</button>
-					</form>
+					</div>
 				</div>
 			</div>
 		</div>

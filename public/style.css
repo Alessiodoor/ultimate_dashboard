@@ -67,7 +67,7 @@ h5 {
 
 input:checked+p {
   text-decoration: line-through;
-  text-decoration-color: #A683E3;
+  text-decoration-color: #3498db;
 }
 
 input[type="checkbox"] {
@@ -99,6 +99,11 @@ form.item {/*form con classe item*/
   border-width: 0;
 }
 
+.listName:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 input[type="text"] {
   text-align: center;
   height: 60px;
@@ -112,7 +117,7 @@ input[type="text"] {
 
 input[type="text"]:focus {
   outline: none;
-  box-shadow: inset 0 -3px 0 0 #A683E3;
+  box-shadow: inset 0 -3px 0 0 #3498db;
 }
 
 ::placeholder {

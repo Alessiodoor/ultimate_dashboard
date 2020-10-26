@@ -72,12 +72,15 @@ class TodoList {
 		});
 	}
 
-	deleteItem(listId, itemName, fn){
-		this.List.findOneAndUpdate({_id: listId}, {$pull: {items: {name: itemName}}}, function(err, doc) {
+	deleteItem(listId, itemId, fn){
+		this.List.findOneAndUpdate(
+			{_id: listId}, 
+			{$pull: {items: {_id: itemId}}}, 
+			function(err, doc) {
 			if(err){
-				fn({err: err, message: "Error"});		
+				fn({err: err, message: "Error", list: null});		
 			}else{
-				fn({err: null, message: "Remove correctly"});
+				fn({err: null, message: "Remove correctly", list: doc});
 			}
 		});
 	}
@@ -104,10 +107,10 @@ class TodoList {
 			if(!err){
 				doc.items.push(item);
 				doc.save(function() {
-					fn({err: null, message: "Item added"});
+					fn({err: null, message: "Item added", list: doc});
 				});
 			}else{
-				fn({err: err, message: "Error"});
+				fn({err: err, message: "Error", list: null});
 			}
 			
 		});

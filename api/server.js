@@ -15,6 +15,8 @@ app.use(express.static("public"));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   next();
 });
 
@@ -51,25 +53,26 @@ app.route("/lists")
 	});
 
 // api per la singola lista, l'item lo passo come parametro del body
-app.route("/lists/:listId")
-	.get(function(req, res) {
-		// get items in a list
-		todoList.getList(req.params.listId, function(result) {
-			res.send(result);
-		})
-	})
-	.put(function(req, res) {
-		// add an item to the list
-		todoList.insertNewItem(req.body.itemName, req.params.listId, function(result) {
-			res.send(result);
-		})
-	})
-	.delete(function(req, res) {
-		// delete item from the list by id
-		todoList.deleteItem(req.params.listId, req.body.itemName, function(result) {
-			res.send(result);
-		});
+app.get("/lists/:listId", function(req, res) {
+	// get items in a list
+	todoList.getList(req.params.listId, function(result) {
+		res.send(result);
 	});
+});
+
+app.put("/lists/:listId/:itemName", function(req, res) {
+	// add an item to the list
+	todoList.insertNewItem(req.params.itemName, req.params.listId, function(result) {
+		res.send(result);
+	});
+});
+
+app.delete("/lists/:listId/:itemId", function(req, res) {
+	// delete item from the list by id
+	todoList.deleteItem(req.params.listId, req.params.itemId, function(result) {
+		res.send(result);
+	});
+});
 
 app.listen(port, function(){
 	console.log('Listening on port ' + port);

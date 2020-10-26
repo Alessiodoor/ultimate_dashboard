@@ -1,8 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import List from "./List";
-import Lists from "./Lists";
+import TodoList from "./TodoList";
 
 // nb: deve essere tutto compreso in un div se no errore
 
@@ -10,8 +9,7 @@ function App(){
 	return (
 		<div>
 			<Header />
-			<List />
-			<Lists />
+			<TodoList listName="Today"/>
 			<Footer />
 		</div>
 		);
