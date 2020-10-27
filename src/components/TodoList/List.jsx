@@ -51,7 +51,7 @@ function List (props){
 	}
 
 	// Estraggo lista ogni volta che listId viene aggiornato
-	useEffect(() => {getList();	}, [props.listId]);
+	useEffect(() => {getList()}, [props.listId]);
 
 	return (
 		<div>
@@ -67,7 +67,7 @@ function List (props){
 					})}
 				</ul>
 				<div className="item ml-0">
-					<input onChange={handleNewItemInput} value={newItem} type="text" placeholder="Cosa devi fare" />
+					<input className="todolist_input" onChange={handleNewItemInput} value={newItem} type="text" placeholder="Cosa devi fare" />
 					<Fab onClick={putItem}>
 					    <AddIcon />
 					</Fab>

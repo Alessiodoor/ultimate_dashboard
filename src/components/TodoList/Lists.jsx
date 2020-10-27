@@ -60,7 +60,7 @@ function Lists(props) {
 					})}
 				</ul>
 				<div className="item ml-0">
-					<input onChange={handleNewListName} type="text" value={newListName} placeholder="Crea una nuova lista" />
+					<input className="todolist_input" onChange={handleNewListName} type="text" value={newListName} placeholder="Crea una nuova lista" />
 					<Fab onClick={createNewList}>
 					    <AddIcon />
 					</Fab>

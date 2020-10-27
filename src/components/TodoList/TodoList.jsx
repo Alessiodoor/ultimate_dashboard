@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import List from "./List";
 import Lists from "./Lists";
 
-function TodoList() {
+function TodoList(props) {
 	const [currentListId, setCurrentListId] = useState("5f940f2052d3b944ef43749b");
 
 	function handleCurrentListChange(listId){
@@ -15,7 +15,7 @@ function TodoList() {
 	// Infine, passo lo state come props al secondo child, nel quale controllerò la variabile con un useEffect
 
 	return (
-		<div className="col-sm-6">
+		<div className={props.size}>
 			<List listId={currentListId}/>
 			<Lists onChangeList={handleCurrentListChange} />
 		</div>
