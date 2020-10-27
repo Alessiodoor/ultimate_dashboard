@@ -7,7 +7,7 @@ const TodoList = require(__dirname + "/todolist.js");
 
 const app = express();
 
-app.set('view engine', 'ejs');
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
@@ -41,6 +41,7 @@ app.route("/lists")
 	})
 	.post(function(req, res) {
 		// aggiungo una lista
+		console.log(req.body);
 		todoList.createNewList(req.body.listName, function(result) {
 			res.send(result);
 		});

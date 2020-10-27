@@ -9,7 +9,7 @@ function App(){
 	return (
 		<div>
 			<Header />
-			<TodoList listName="Today"/>
+			<TodoList />
 			<Footer />
 		</div>
 		);

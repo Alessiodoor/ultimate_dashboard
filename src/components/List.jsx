@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import Item from "./Item";
+import AddIcon from "@material-ui/icons/Add";
+import Fab from "@material-ui/core/Fab";
 
 function List (props){
-	const listId = "5f940f2052d3b944ef43749b";
 	const [list, setList] = useState({
 		name: "",
 		items: [],
@@ -10,8 +11,8 @@ function List (props){
 	});
 	const [newItem, setNewItem] = useState("");
 
-	function getList(id){
-	    fetch("http://localhost:5000/lists/" + id, {"method": "GET"})
+	function getList(){
+	    fetch("http://localhost:5000/lists/" + props.listId, {"method": "GET"})
 	    .then(response => response.json())
 	    .then(response => {
 	    	setList(response.list);
@@ -21,7 +22,7 @@ function List (props){
 	}
 
 	function deleteItem(itemId) {
-		fetch("http://localhost:5000/lists/" + listId + "/" + itemId, {"method": "DELETE"})
+		fetch("http://localhost:5000/lists/" + props.listId + "/" + itemId, {"method": "DELETE"})
 	    .then(response => response.json())
 	    .then(response => {
 	    	console.log(response);
@@ -34,11 +35,12 @@ function List (props){
 	}
 
 	function putItem() {
-		fetch("http://localhost:5000/lists/" + listId + "/" + newItem, {"method": "PUT"})
+		fetch("http://localhost:5000/lists/" + props.listId + "/" + newItem, {"method": "PUT"})
 	    .then(response => response.json())
 	    .then(response => {
-	    	console.log(response);
 	    	setList(response.list);
+	    	// svuoto input text
+	    	setNewItem("");
 	    })
 	    .catch(err => { console.log(err); 
 	    });
@@ -48,10 +50,8 @@ function List (props){
 		setNewItem(event.target.value);
 	}
 
-	// Estraggo lista iniziale
-	useEffect(() => {
-		getList(listId);
-	}, []);
+	// Estraggo lista ogni volta che listId viene aggiornato
+	useEffect(() => {getList();	}, [props.listId]);
 
 	return (
 		<div>
@@ -65,11 +65,13 @@ function List (props){
 							<Item key={item._id} onDelete={deleteItem} id={item._id} list={list.name} name={item.name} />
 							);	
 					})}
-					<div className="item ml-0">
-						<input onChange={handleNewItemInput} value={newItem} type="text" placeholder="New Item" autoComplete="off" />
-						<button onClick={putItem} className="circle-btn">+</button>
-					</div>
 				</ul>
+				<div className="item ml-0">
+					<input onChange={handleNewItemInput} value={newItem} type="text" placeholder="Cosa devi fare" />
+					<Fab onClick={putItem}>
+					    <AddIcon />
+					</Fab>
+				</div>
 			</div>
 		</div>
 		);
