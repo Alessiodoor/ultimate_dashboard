@@ -167,3 +167,10 @@ footer {
 .weather_box {
   margin-top: 4%;
 }
+
+/* Registration */
+
+.card {
+  -webkit-box-shadow: 7px 5px 25px 5px rgba(0,0,0,0.31); 
+  box-shadow: 7px 5px 25px 5px rgba(0,0,0,0.31);
+}

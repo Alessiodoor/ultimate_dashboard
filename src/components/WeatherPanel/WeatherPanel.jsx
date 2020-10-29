@@ -48,7 +48,7 @@ function WeatherPanel (props) {
 			<Grow in={displayInfo}>
 				<div className="box" style={{display: displayInfo? 'block': 'none'}}>
 					<div className="weather_img">
-						<img src={weatherInfo.imgURL} />
+						<img src={weatherInfo.imgURL} alt="weather_icon" />
 					</div>
 					<div className="row">
 						<p className="weather_temp col-sm-6">{weatherInfo.temp}&deg;</p>

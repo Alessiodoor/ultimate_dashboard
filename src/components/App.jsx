@@ -1,21 +1,27 @@
 import React from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import TodoList from "./TodoList/TodoList";
-import WeatherPanel from "./WeatherPanel/WeatherPanel";
-
+import Header from "./Partials/Header";
+import Footer from "./Partials/Footer";
+import Home from "./Home";
+import {
+  BrowserRouter as Router,
+  Route,
+} from "react-router-dom";
+import Login from "./User/Login";
+import Registration from "./User/Registration";
 // nb: deve essere tutto compreso in un div se no errore
 function App(){
-	const size = "col-sm-4"
 	return (
-		<div>
-			<Header />
-			<div className="row navbar-container">
-				<TodoList size={size} />
-				<WeatherPanel size={size} />
+			<div>
+				<Router>
+					<div>
+					<Header />
+						<Route exact path="/" component={Home} />
+						<Route path="/login" component={Login} />
+						<Route path="/registration" component={Registration} />
+					</div>	
+				</Router>
+				<Footer />
 			</div>
-			<Footer />
-		</div>
 		);
 }
 
