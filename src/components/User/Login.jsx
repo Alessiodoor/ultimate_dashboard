@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function Login () {
+function Login (props) {
 	const [user, setUser] = useState({
 		username: "",
 		password: ""
@@ -16,6 +16,16 @@ function Login () {
 		});
 	}
 
+	function isLogged () {
+		fetch("http://localhost:5000/isAuthenticated", {"method": "GET"})
+	    .then(response => response.json())
+	    .then(response => {
+	    	console.log(response);
+	    })
+	    .catch(err => { console.log(err); 
+	    });
+	}
+
 	function login(event){
 		fetch("http://localhost:5000/login", {
 	      "method": "POST",
@@ -28,6 +38,13 @@ function Login () {
 	    .then(response => response.json())
 	    .then(response => {
 	    	console.log(response);
+	    	console.log(localStorage.getItem('cookie'));
+	    	if(response.err === null){
+	    		//props.history.push('/');
+	    		//isLogged();
+	    	}else{
+	    		console.log(response.err);
+	    	}
 	    })
 	    .catch(err => { console.log(err); 
 	    });
@@ -54,7 +71,7 @@ function Login () {
 		            </div>
 		            <button onClick={login} className="btn btn-dark">Login</button>
 		          </form>
-
+		          <button onClick={isLogged}>Check</button>
 		        </div>
 		      </div>
 		    </div>

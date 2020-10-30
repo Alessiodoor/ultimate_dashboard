@@ -5,7 +5,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-function Registration () {
+function Registration (props) {
 	const [user, setUser] = useState({
 		username: "",
 		password: "",
@@ -22,6 +22,29 @@ function Registration () {
 				[name]: value
 			}
 		});
+	}
+
+	function registerNewUser (event) {
+		fetch("http://localhost:5000/register", {
+	      "method": "POST",
+	      headers: {
+	        'Accept': 'application/json',
+        	'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify(user)
+	    })
+	    .then(response => response.json())
+	    .then(response => {
+	    	if(response.err === null){
+	    		props.history.push('/');
+	    	}else{
+	    		console.log(response.err);
+	    	}
+	    })
+	    .catch(err => { console.log(err); 
+	    });
+
+	    event.preventDefault();
 	}
 
 	return (
@@ -57,7 +80,7 @@ function Registration () {
 		              <label htmlFor="password">Password</label>
 		              <input onChange={handleUser} type="password" className="form-control" name="password" value={user.password} />
 		            </div>
-		            <button type="submit" className="btn btn-dark">Register</button>
+		            <button onClick={registerNewUser} className="btn btn-dark">Register</button>
 		          </form>
 
 		        </div>

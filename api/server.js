@@ -9,6 +9,7 @@ const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
+const cookieParser = require('cookie-parser');
 
 //local requires
 const TodoList = require(__dirname + "/todolist.js");
@@ -24,8 +25,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+//app.use(express.cookieSession());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cookieParser({secret: process.env.SECRET}));
 
 // per ogni tipo di autenticazione, anche non locale
 passport.serializeUser(function(user, done) {
@@ -72,7 +75,7 @@ passport.deserializeUser(User.deserializeUser());
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID_GOOGLE,
     clientSecret: process.env.CLIENT_SECRET_GOOGLE,
-    callbackURL: "http://localhost:3000/auth/google/secrets",
+    callbackURL: "http://localhost:5000/auth/google/DACAMBIARE",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -157,9 +160,11 @@ app.post("/login", function(req, res) {
 		if(err){
 			res.send({err: err, message: "Error"});
 		}else {
-			// atutentico l'utente con una strategia local, quando ho user sul db
+			// autentico l'utente con una strategia local, quando ho user sul db
 			passport.authenticate("local")(req, res, function() {
-				res.send({err: null, message: "Logged in"})
+				//res.cookie('session', req.session.passport.user.id, { secure: true, signed: true, expires: new Date(Date.now() + 3600) });
+				//console.log(req.session);
+				res.send({err: null, message: "Logged in"});
 			});
 		}
 	});
