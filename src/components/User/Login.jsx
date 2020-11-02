@@ -16,6 +16,7 @@ function Login (props) {
 		});
 	}
 
+	/*
 	function isLogged () {
 		fetch("http://localhost:5000/isAuthenticated", {"method": "GET"})
 	    .then(response => response.json())
@@ -24,7 +25,7 @@ function Login (props) {
 	    })
 	    .catch(err => { console.log(err); 
 	    });
-	}
+	}*/
 
 	function login(event){
 		fetch("http://localhost:5000/login", {
@@ -37,11 +38,10 @@ function Login (props) {
 	    })
 	    .then(response => response.json())
 	    .then(response => {
-	    	console.log(response);
-	    	console.log(localStorage.getItem('cookie'));
 	    	if(response.err === null){
-	    		//props.history.push('/');
-	    		//isLogged();
+	    		const userId = response.userId;
+	    		sessionStorage.setItem('userId', userId);
+	    		props.history.push('/');
 	    	}else{
 	    		console.log(response.err);
 	    	}
@@ -71,7 +71,6 @@ function Login (props) {
 		            </div>
 		            <button onClick={login} className="btn btn-dark">Login</button>
 		          </form>
-		          <button onClick={isLogged}>Check</button>
 		        </div>
 		      </div>
 		    </div>

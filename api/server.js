@@ -158,13 +158,13 @@ app.post("/login", function(req, res) {
 
 	req.login(newUser, function(err) {
 		if(err){
-			res.send({err: err, message: "Error"});
+			res.send({err: err, message: "Error", user: null});
 		}else {
 			// autentico l'utente con una strategia local, quando ho user sul db
 			passport.authenticate("local")(req, res, function() {
 				//res.cookie('session', req.session.passport.user.id, { secure: true, signed: true, expires: new Date(Date.now() + 3600) });
 				//console.log(req.session);
-				res.send({err: null, message: "Logged in"});
+				res.send({err: null, message: "Logged in", userId: newUser._id});
 			});
 		}
 	});
