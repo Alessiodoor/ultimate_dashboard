@@ -39,7 +39,7 @@ function Login (props) {
 	    .then(response => response.json())
 	    .then(response => {
 	    	if(response.err === null){
-	    		const userId = response.userId;
+	    		const userId = response.user._id;
 	    		sessionStorage.setItem('userId', userId);
 	    		props.history.push('/');
 	    	}else{

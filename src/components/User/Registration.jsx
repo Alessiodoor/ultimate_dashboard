@@ -11,7 +11,8 @@ function Registration (props) {
 		password: "",
 		name: "",
 		surname: "",
-		gender: ""
+		gender: "",
+		city: ""
 	});
 
 	function handleUser (event) {
@@ -36,7 +37,7 @@ function Registration (props) {
 	    .then(response => response.json())
 	    .then(response => {
 	    	if(response.err === null){
-	    		props.history.push('/');
+	    		props.history.push('/login');
 	    	}else{
 	    		console.log(response.err);
 	    	}
@@ -75,6 +76,10 @@ function Registration (props) {
 		            <div className="form-group">
 		              <label htmlFor="surname">Surname</label>
 		              <input onChange={handleUser} type="text" className="form-control" name="surname" value={user.surname} />
+		            </div>
+		            <div className="form-group">
+		              <label htmlFor="city">City</label>
+		              <input onChange={handleUser} type="text" className="form-control" name="city" value={user.city} />
 		            </div>
 		            <div className="form-group">
 		              <label htmlFor="password">Password</label>

@@ -6,8 +6,6 @@ import Welcome from "./Welcome";
 function Home (props) {
 	const size = "col-sm-4";
 
-	let data = sessionStorage.getItem('userId');
-
 	return (
 		<div>
 			{sessionStorage.getItem('userId') 

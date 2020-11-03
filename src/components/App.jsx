@@ -8,16 +8,46 @@ import {
 } from "react-router-dom";
 import Login from "./User/Login";
 import Registration from "./User/Registration";
+
 // nb: deve essere tutto compreso in un div se no errore
 function App(){
-	const [logged, setLogged] = useState(sessionStorage.getItem('userId'));
+	console.log(sessionStorage.getItem('userId'));
+	const [user, setUser] = useState({
+		username: "",
+		name: "",
+		surname: "",
+		gender: "",
+		city: ""
+	});
+
+	//sessionStorage.getItem('userId')
+
+	function getUser (id) {
+		fetch("http://localhost:5000/user", {
+	      "method": "POST",
+	      headers: {
+	        'Accept': 'application/json',
+        	'Content-Type': 'application/json'
+	      },
+	      body: JSON.stringify({userId: id})
+	    })
+	    .then(response => response.json())
+	    .then(response => {
+	    	if(response.err === null){
+	    		console.log(response);
+	    	}else{
+	    		console.log(response.err);
+	    	}
+	    })
+	    .catch(err => { console.log(err); 
+	    });
+	}
 
 	function handleLogged () {
-		console.log(logged);
 		if(sessionStorage.getItem('userId')){
-			setLogged(true);
+			getUser(sessionStorage.getItem('userId'));
 		}else{
-			setLogged(false);
+			console.log('Not logged');
 		}
 	}
 
@@ -27,11 +57,11 @@ function App(){
 			<div>
 				<Router>
 					<div>
-					<Header logged={logged} />
+					<Header user={user} />
 						<Route 
 							exact path="/" 
 							render={(props) => (
-    							<Home {...props} />
+    							<Home {...props} user={user}/>
   							)} 
   						/>
 						<Route 

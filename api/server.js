@@ -58,6 +58,10 @@ let todoList = new TodoList(mongoose);
 
 const userSchema = new mongoose.Schema ({
 	email: String,
+	city: String,
+	fName: String,
+	lName: String,
+	gender: String,
 	password: String,
 	googleId: String
 });
@@ -138,7 +142,15 @@ app.delete("/lists/:listId/:itemId", function(req, res) {
 
 // Create new user, the credentials are given by a form submition
 app.post("/register", function(req, res) {
-	User.register({username: req.body.username}, req.body.password, function(err, user) {
+	const newUser = {
+		username: req.body.username,
+		city: req.body.city,
+		fName: req.body.fName,
+		lName: req.body.lName,
+		gender: req.body.gender
+	}
+
+	User.register(newUser, req.body.password, function(err, user) {
 		if(err){
 			res.send({err: err, message: "err"});
 		}else{
@@ -152,7 +164,7 @@ app.post("/register", function(req, res) {
 // Login a user, the credentials are given by a form submition
 app.post("/login", function(req, res) {
 	const newUser = new User ({
-		username: req.body.username,
+		username: _.lowerFirst(req.body.username),
 		password: req.body.password
 	});
 
@@ -162,14 +174,24 @@ app.post("/login", function(req, res) {
 		}else {
 			// autentico l'utente con una strategia local, quando ho user sul db
 			passport.authenticate("local")(req, res, function() {
-				//res.cookie('session', req.session.passport.user.id, { secure: true, signed: true, expires: new Date(Date.now() + 3600) });
 				//console.log(req.session);
-				res.send({err: null, message: "Logged in", userId: newUser._id});
+				res.send({err: null, message: "Logged in", user: newUser});
 			});
 		}
 	});
 });
 
+app.post("/user", function(req, res) {
+	User.findById(req.body.userId, "username city fName lName gender", function(err, user) {
+		if(err){
+			res.send({err: err, user: null})
+		}else {
+			res.send({err: null, user: user});	
+		}
+	});
+})
+
+// non in uso
 app.get("/isAuthenticated", function(req, res) {
 	if(req.isAuthenticated()){
 		res.send({code: 1, message: "User authenticated"});
