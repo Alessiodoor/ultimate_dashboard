@@ -1,10 +1,14 @@
 import React, {useState} from "react";
+import Alert from '@material-ui/lab/Alert';
+import TextField from '@material-ui/core/TextField';
 
 function Login (props) {
 	const [user, setUser] = useState({
 		username: "",
 		password: ""
 	});
+
+	const [loginErr, setLoginErr] = useState(false);
 
 	function handleUser (event) {
 		const {name, value} = event.target;
@@ -39,14 +43,17 @@ function Login (props) {
 	    .then(response => response.json())
 	    .then(response => {
 	    	if(response.err === null){
-	    		const userId = response.user._id;
-	    		sessionStorage.setItem('userId', userId);
+	    		setLoginErr(false);
+	    		sessionStorage.setItem('userId', response.user._id);
 	    		props.history.push('/');
 	    	}else{
 	    		console.log(response.err);
+	    		setLoginErr(true);
 	    	}
 	    })
-	    .catch(err => { console.log(err); 
+	    .catch(err => { 
+	    	console.log(err); 
+	    	setLoginErr(true);
 	    });
 
 	    event.preventDefault();
@@ -62,12 +69,13 @@ function Login (props) {
 		        <div className="card-body">
 		          <form>
 		            <div className="form-group">
-		              <label htmlFor="email">Email</label>
-		              <input onChange={handleUser} type="text" className="form-control" value={user.email}  name="username"/>
+		            	{loginErr && <Alert severity="error">Username o password errati</Alert>}
+		              	<label htmlFor="email">Email</label>
+		              	<TextField variant="outlined" onChange={handleUser} type="text" className="form-element" value={user.email}  name="username"/>
 		            </div>
 		            <div className="form-group">
-		              <label htmlFor="password">Password</label>
-		              <input onChange={handleUser} type="password" className="form-control" value={user.password} name="password"/>
+		              	<label htmlFor="password">Password</label>
+		              	<TextField variant="outlined" onChange={handleUser} type="password" className="form-element" value={user.password} name="password" />
 		            </div>
 		            <button onClick={login} className="btn btn-dark">Login</button>
 		          </form>
@@ -79,7 +87,7 @@ function Login (props) {
 		      <div className="card">
 		        <div className="card-body">
 		          <a className="btn btn-block" href="/auth/google" role="button">
-		            <i className="fab fa-google"></i>
+		            <i className="fab fa-google"></i>&ensp;
 		            Sign In with Google
 		          </a>
 		        </div>

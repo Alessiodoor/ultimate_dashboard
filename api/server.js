@@ -175,7 +175,7 @@ app.post("/login", function(req, res) {
 			// autentico l'utente con una strategia local, quando ho user sul db
 			passport.authenticate("local")(req, res, function() {
 				//console.log(req.session);
-				res.send({err: null, message: "Logged in", user: newUser});
+				res.send({err: null, message: "Logged in", user: req.user});
 			});
 		}
 	});

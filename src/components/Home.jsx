@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import TodoList from "./TodoList/TodoList";
 import WeatherPanel from "./WeatherPanel/WeatherPanel";
 import Welcome from "./Welcome";
@@ -8,11 +8,11 @@ function Home (props) {
 
 	return (
 		<div>
-			{sessionStorage.getItem('userId') 
+			{props.user.logged
 				? 
 				<div className="row navbar-container">
 					<TodoList size={size} />
-					<WeatherPanel size={size} />
+					<WeatherPanel size={size} user={props.user} />
 				</div> 
 				:
 				<Welcome />

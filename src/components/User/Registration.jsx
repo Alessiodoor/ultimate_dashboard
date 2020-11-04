@@ -4,6 +4,8 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Alert from '@material-ui/lab/Alert';
+import TextField from '@material-ui/core/TextField';
 
 function Registration (props) {
 	const [user, setUser] = useState({
@@ -53,13 +55,12 @@ function Registration (props) {
 		  <h1>Register</h1>
 
 		  <div className="row">
-		    <div className="col-sm-8">
+		    <div className="col-sm-8" style={{"marginBottom": "3%"}}>
 		      <div className="card">
 		        <div className="card-body">
 		          <form>
 		            <div className="form-group">
-		              <label htmlFor="username">Email</label>
-		              <input onChange={handleUser} type="text" className="form-control" name="username" value={user.username} />
+		              <TextField label="Email" variant="outlined" onChange={handleUser} type="text" className="form-element" name="username" value={user.username} />
 		            </div>
 		            <div className="form-group">
 					    <FormLabel component="legend">Gender</FormLabel>
@@ -70,20 +71,16 @@ function Registration (props) {
 					      </RadioGroup>
 		            </div>
 		            <div className="form-group">
-		              <label htmlFor="name">Name</label>
-		              <input onChange={handleUser} type="text" className="form-control" name="name" value={user.name} />
+		              <TextField label="Name" variant="outlined" onChange={handleUser} type="text" className="form-element" name="name" value={user.name} />
 		            </div>
 		            <div className="form-group">
-		              <label htmlFor="surname">Surname</label>
-		              <input onChange={handleUser} type="text" className="form-control" name="surname" value={user.surname} />
+		              <TextField label="Surname" variant="outlined" onChange={handleUser} type="text" className="form-element" name="surname" value={user.surname} />
 		            </div>
 		            <div className="form-group">
-		              <label htmlFor="city">City</label>
-		              <input onChange={handleUser} type="text" className="form-control" name="city" value={user.city} />
+		              <TextField label="City" variant="outlined" onChange={handleUser} type="text" className="form-element" name="city" value={user.city} />
 		            </div>
 		            <div className="form-group">
-		              <label htmlFor="password">Password</label>
-		              <input onChange={handleUser} type="password" className="form-control" name="password" value={user.password} />
+		              <TextField label="Password" variant="outlined" onChange={handleUser} type="password" className="form-element" name="password" value={user.password} />
 		            </div>
 		            <button onClick={registerNewUser} className="btn btn-dark">Register</button>
 		          </form>

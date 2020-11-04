@@ -11,13 +11,13 @@ import Registration from "./User/Registration";
 
 // nb: deve essere tutto compreso in un div se no errore
 function App(){
-	console.log(sessionStorage.getItem('userId'));
 	const [user, setUser] = useState({
 		username: "",
 		name: "",
 		surname: "",
 		gender: "",
-		city: ""
+		city: "",
+		logged: false
 	});
 
 	//sessionStorage.getItem('userId')
@@ -34,7 +34,10 @@ function App(){
 	    .then(response => response.json())
 	    .then(response => {
 	    	if(response.err === null){
-	    		console.log(response);
+	    		setUser({
+	    			...response.user,
+	    			logged: true
+	    		});
 	    	}else{
 	    		console.log(response.err);
 	    	}
@@ -51,13 +54,32 @@ function App(){
 		}
 	}
 
-	useEffect(() => {handleLogged(); }, [sessionStorage.getItem('userId')]);
+	function logout () {
+		// Remove saved data from sessionStorage
+		sessionStorage.removeItem('key');
+
+		// Remove all saved data from sessionStorage
+		sessionStorage.clear();
+
+		// remove the user state
+		setUser({
+			username: "",
+			name: "",
+			surname: "",
+			gender: "",
+			city: "",
+			logged: false
+		});
+	}
+	
+	const userId = sessionStorage.getItem('userId');
+	useEffect(() => {handleLogged(); }, [userId]);
 
 	return (
 			<div>
 				<Router>
 					<div>
-					<Header user={user} />
+					<Header user={user}  onLogout={logout} />
 						<Route 
 							exact path="/" 
 							render={(props) => (

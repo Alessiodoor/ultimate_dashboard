@@ -1,6 +1,5 @@
 body {
-  background-color: #E4E9FD;
-  /*background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);*/
+  background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
   min-height: 1000px;
   font-family: 'helvetica neue';
 }
@@ -11,6 +10,10 @@ h1 {
 
 h5 {
   margin-bottom: 0;
+}
+
+a {
+  color: #fff;
 }
 
 /* Navbar */
@@ -133,9 +136,17 @@ footer {
 }
 
 /* Weather App */
+.userCity_name {
+  text-align: center;
+  padding: 5% 0;
+  font-size: 2rem;
+}
+
 .search_weather_box{
+  text-align: center;
   padding: 3%;
 }
+
 .weather_input {
   text-align: center;
   height: 60px;
@@ -173,4 +184,8 @@ footer {
 .card {
   -webkit-box-shadow: 7px 5px 25px 5px rgba(0,0,0,0.31); 
   box-shadow: 7px 5px 25px 5px rgba(0,0,0,0.31);
+}
+
+.form-element {
+  width: 100%;
 }
