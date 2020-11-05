@@ -6,9 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 
 function Header(props) {
@@ -25,16 +22,6 @@ function Header(props) {
 	}));
 
 	const classes = useStyles();
-  	const [anchorEl, setAnchorEl] = React.useState(null);
-  	const open = Boolean(anchorEl);
-
-  	const handleMenu = (event) => {
-    	setAnchorEl(event.currentTarget);
-  	};
-
-  	const handleClose = () => {
-    	setAnchorEl(null);
-  	};
 
 	return (
 		<div className={classes.root}>
@@ -48,36 +35,10 @@ function Header(props) {
 	          </Typography>
 	          {props.user.logged ? (
 	            <div>
-	              <IconButton
-	                aria-label="account of current user"
-	                aria-controls="menu-appbar"
-	                aria-haspopup="true"
-	                onClick={handleMenu}
-	                color="inherit"
-	              >
-	                <AccountCircle />
-	              </IconButton>
-
-	              <Menu
-	                id="menu-appbar"
-	                anchorEl={anchorEl}
-	                anchorOrigin={{
-	                  vertical: 'top',
-	                  horizontal: 'right',
-	                }}
-	                keepMounted
-	                transformOrigin={{
-	                  vertical: 'top',
-	                  horizontal: 'right',
-	                }}
-	                open={open}
-	                onClose={handleClose}
-	              >
-	                <MenuItem onClick={handleClose}>Profile</MenuItem>
-	                <MenuItem onClick={function() {
+	            	<Button color="inherit">{props.user.username}</Button>
+	      			<Button color="inherit" onClick={function() {
 			  				props.onLogout();
-			  			}}>Logout</MenuItem>
-	              </Menu>
+			  			}}>Logout</Button>
 	            </div>
 	          ):
 	          	<div>

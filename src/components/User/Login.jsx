@@ -11,7 +11,10 @@ function Login (props) {
 	const [loginErr, setLoginErr] = useState(false);
 
 	function handleUser (event) {
-		const {name, value} = event.target;
+		var {name, value} = event.target;
+		if (name === "username") {
+			value = value.toLowerCase();
+		}
 		setUser(function(prevUser) {
 			return {
 				...prevUser,
@@ -44,7 +47,7 @@ function Login (props) {
 	    .then(response => {
 	    	if(response.err === null){
 	    		setLoginErr(false);
-	    		sessionStorage.setItem('userId', response.user._id);
+	    		props.onLogin(response.user._id);
 	    		props.history.push('/');
 	    	}else{
 	    		console.log(response.err);
@@ -70,12 +73,10 @@ function Login (props) {
 		          <form>
 		            <div className="form-group">
 		            	{loginErr && <Alert severity="error">Username o password errati</Alert>}
-		              	<label htmlFor="email">Email</label>
-		              	<TextField variant="outlined" onChange={handleUser} type="text" className="form-element" value={user.email}  name="username"/>
+		              	<TextField label="Email" variant="outlined" autoCorrect="off" autoCapitalize="none" onChange={handleUser} type="text" className="form-element" value={user.username}  name="username"/>
 		            </div>
 		            <div className="form-group">
-		              	<label htmlFor="password">Password</label>
-		              	<TextField variant="outlined" onChange={handleUser} type="password" className="form-element" value={user.password} name="password" />
+		              	<TextField label="Password" variant="outlined" onChange={handleUser} type="password" className="form-element" value={user.password} name="password" />
 		            </div>
 		            <button onClick={login} className="btn btn-dark">Login</button>
 		          </form>

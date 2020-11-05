@@ -54,6 +54,12 @@ function App(){
 		}
 	}
 
+	function login (id) {
+		console.log('logi');
+		sessionStorage.setItem('userId', id);
+		getUser(id);
+	}
+
 	function logout () {
 		// Remove saved data from sessionStorage
 		sessionStorage.removeItem('key');
@@ -72,8 +78,7 @@ function App(){
 		});
 	}
 	
-	const userId = sessionStorage.getItem('userId');
-	useEffect(() => {handleLogged(); }, [userId]);
+	useEffect(() => {handleLogged(); }, []);
 
 	return (
 			<div>
@@ -89,7 +94,7 @@ function App(){
 						<Route 
 							path="/login" 
 							render={(props) => (
-    							<Login {...props} />
+    							<Login {...props} onLogin={login} />
   							)}  
 						/>
 						<Route path="/registration" component={Registration} />

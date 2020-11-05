@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Button from '@material-ui/core/Button';
-import Grow from '@material-ui/core/Grow';
 import Alert from '@material-ui/lab/Alert';
+import CityInfo from "./CityInfo";
 
 function WeatherPanel (props) {
 	// informaizoni sulla città cercata
@@ -9,16 +9,22 @@ function WeatherPanel (props) {
 	const [city, setCity] = useState("");
 	const [weatherInfo, setWeatherInfo] = useState({
 		temp: 0,
+		feels: 0,
 		description: "",
-		imgURL: ""
+		imgURL: "",
+		city: "",
+		country: ""
 	});
 	const [searchErr, setSearchErr] = useState(false);
 
 	// infomazioni meteo sulla città dell'utente
 	const [userCityInfo, setUserCityInfo] = useState({
 		temp: 0,
+		feels: 0,
 		description: "",
-		imgURL: ""
+		imgURL: "",
+		city: "",
+		country: ""
 	});
 
 	function handleCity(event){
@@ -44,11 +50,14 @@ function WeatherPanel (props) {
 	    		if(!isUser){
 		    		setDisplayInfo(true);
 		    	}
-				const icon = response.weather[0].icon;
+		    	
 				const newInfo = {
 					temp: Math.trunc(response.main.temp),
+					feels: Math.trunc(response.main.feels_like),
 					description: response.weather[0].description,
-					imgURL: " http://openweathermap.org/img/wn/" + icon + "@2x.png"
+					imgURL: " http://openweathermap.org/img/wn/" + response.weather[0].icon + "@2x.png",
+					city: query,
+					country: response.sys.country
 				};
 				if(isUser){
 					setUserCityInfo(newInfo);
@@ -72,19 +81,7 @@ function WeatherPanel (props) {
 	return (
 		<div className={props.size}>
 			<div>
-				<div className="box">
-					<p className="userCity_name">Meteo {props.user.city}</p>
-					<div className="weather_img">
-						<img src={userCityInfo.imgURL} alt="weather_icon" />
-					</div>
-					<div className="row">
-						<p className="weather_temp col-sm-6">{userCityInfo.temp}&deg;</p>
-						<div className="col-sm-6 weather_box">
-							<p>Details</p>
-							<p className="weather_details">{userCityInfo.description}</p>
-						</div>
-					</div>
-				</div>
+				<CityInfo weatherInfo={userCityInfo} />
 			</div>
 			<div className="box search_weather_box">
 				<p>Cerca il meteo di una città</p>
@@ -95,18 +92,7 @@ function WeatherPanel (props) {
 			    {searchErr && <Alert severity="error">Città non trovata</Alert>}
 			</div>
 			<div>
-				<div className="box" style={{display: displayInfo? 'block': 'none'}}>
-					<div className="weather_img">
-						<img src={weatherInfo.imgURL} alt="weather_icon" />
-					</div>
-					<div className="row">
-						<p className="weather_temp col-sm-6">{weatherInfo.temp}&deg;</p>
-						<div className="col-sm-6 weather_box">
-							<p>Details</p>
-							<p className="weather_details">{weatherInfo.description}</p>
-						</div>
-					</div>
-				</div>
+				{displayInfo && <CityInfo weatherInfo={weatherInfo} />}
 			</div>
 		</div>
 		);
