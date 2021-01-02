@@ -13,7 +13,7 @@ function Card (props) {
 			  <img style={props.user.gender === "other" ? {height: '286px'} : null} src={props.user.gender === "male" ? avatarMale : props.user.gender === "female" ? avatarFemale : null} className="card-img-top" alt="..." />
 			  <div className="card-body">
 			    <h5 className="card-title"><EmailIcon /> {props.user.username}</h5>
-			    <p className="card-text"><PersonIcon /> {props.user.name} {props.user.surname}</p>
+			    <p className="card-text"><PersonIcon /> {props.user.fName} {props.user.lName}</p>
 			    <p className="card-text"><LocationOnIcon /> {props.user.city}</p>
 			  </div>
 			</div>

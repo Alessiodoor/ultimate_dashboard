@@ -11,11 +11,16 @@ function Registration (props) {
 	const [user, setUser] = useState({
 		username: "",
 		password: "",
-		name: "",
-		surname: "",
+		fName: "",
+		lName: "",
 		gender: "",
 		city: ""
 	});
+
+	const [err, setErr] = useState({
+		regErr: false,
+		message: ""
+	})
 
 	function handleUser (event) {
 		const {name, value} = event.target;
@@ -39,12 +44,14 @@ function Registration (props) {
 	    .then(response => response.json())
 	    .then(response => {
 	    	if(response.err === null){
+	    		setErr({regErr: false, message: ""});
 	    		props.history.push('/login');
 	    	}else{
-	    		console.log(response.err);
+	    		setErr({regErr: true, message: response.err.message});
 	    	}
 	    })
-	    .catch(err => { console.log(err); 
+	    .catch(err => { 
+	    	console.log(err); 
 	    });
 
 	    event.preventDefault();
@@ -59,6 +66,7 @@ function Registration (props) {
 		      <div className="card">
 		        <div className="card-body">
 		          <form>
+		          	{err.regErr && <Alert severity="error">{err.message}</Alert>}
 		            <div className="form-group">
 		              <TextField label="Email" variant="outlined" onChange={handleUser} type="text" className="form-element" name="username" value={user.username} />
 		            </div>
@@ -71,10 +79,10 @@ function Registration (props) {
 					      </RadioGroup>
 		            </div>
 		            <div className="form-group">
-		              <TextField label="Name" variant="outlined" onChange={handleUser} type="text" className="form-element" name="name" value={user.name} />
+		              <TextField label="Name" variant="outlined" onChange={handleUser} type="text" className="form-element" name="fName" value={user.fName} />
 		            </div>
 		            <div className="form-group">
-		              <TextField label="Surname" variant="outlined" onChange={handleUser} type="text" className="form-element" name="surname" value={user.surname} />
+		              <TextField label="Surname" variant="outlined" onChange={handleUser} type="text" className="form-element" name="lName" value={user.lName} />
 		            </div>
 		            <div className="form-group">
 		              <TextField label="City" variant="outlined" onChange={handleUser} type="text" className="form-element" name="city" value={user.city} />
